@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
-export async function GET(req:NextRequest){
+export async function POST(req:Request){
 //req.body should contain latitude and longitude
-const {data}=await req.json();
+const data=await req.json();
+console.log(data);
 const latitude=data?.latitude||22;
 const longitude=data?.longitude||73;
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API });
