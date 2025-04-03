@@ -10,8 +10,7 @@ export default function Navbar() {
   return (
     <nav className="bg-gray-800 text-white p-4 shadow-md ">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold">FarmPlus</h1>
-        
+        <Link href={"/"}><h1 className="text-2xl font-bold">FarmPlus</h1></Link>
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-white focus:outline-none"
