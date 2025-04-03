@@ -3,7 +3,7 @@
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { cookies } from 'next/headers'
+// import { cookies } from 'next/headers'THIS IS SERVER COMPONENT
 export default function Login() {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -22,13 +22,14 @@ export default function Login() {
 
             });
         }
-        const storeLocation = async () => {
-            const cookieStore = await cookies();
-            cookieStore.set("location", JSON.stringify({
-                latitude: latitude,
-                longitude: longitude
-            }))
-        }
+        // const storeLocation = async () => {
+        //     const cookieStore = await cookies();
+        //     cookieStore.set("location", JSON.stringify({
+        //         latitude: latitude,
+        //         longitude: longitude
+        //     }))
+        // }
+        // storeLocation()
     }, []);
     return (
         <>
