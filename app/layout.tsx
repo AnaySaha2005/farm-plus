@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@/components/ThemeProvider";
-import Navbar from "@/components/Navbar";
+
 import Footer from "@/components/Footer";
 import SettingsMenu from "@/components/SettingsMenu";
 import type { Metadata } from "next";
