@@ -20,7 +20,7 @@ export default function Signup() {
 
     return (<>
         <Navbar/>
-        <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
+        <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white p-4">
             <div className="bg-gray-800 p-6 rounded-lg shadow-md w-96 border border-gray-700">
                 <h2 className="text-2xl font-bold text-center mb-4 text-green-400">Sign Up</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
