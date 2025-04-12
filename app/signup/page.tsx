@@ -1,5 +1,6 @@
 'use client';
 import Navbar from '@/components/Navbar';
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -10,16 +11,16 @@ export default function Signup() {
     const [countryCode, setCountryCode] = useState('+1');
     const [role, setRole] = useState('farmer');
     const router = useRouter();
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         console.log({ name, phone, countryCode, role });
-
+        const res=await axios.post("api/signup", { name: name, phone: phone, code: countryCode, role: role }).then(() => { router.push("/login") })
         // Handle form submission, e.g., send data to the backend
-        router.push("/login")
+
     };
 
     return (<>
-        <Navbar/>
+        <Navbar />
         <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white p-4">
             <div className="bg-gray-800 p-6 rounded-lg shadow-md w-96 border border-gray-700">
                 <h2 className="text-2xl font-bold text-center mb-4 text-green-400">Sign Up</h2>
@@ -69,17 +70,17 @@ export default function Signup() {
                         </select>
                     </div>
                     <div className='flex justify-between'>
-                    <button
-                        type="submit"
-                        className="  w-32 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-all duration-300"
-                    >
-                        Signup
-                    </button>
-                    <Link  className=" w-20 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-all duration-300 text-center" href="/login">Login?</Link>
+                        <button
+                            type="submit"
+                            className="  w-32 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-all duration-300"
+                        >
+                            Signup
+                        </button>
+                        <Link className=" w-20 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-all duration-300 text-center" href="/login">Login?</Link>
                     </div>
                 </form>
             </div>
         </div>
-        </>
+    </>
     );
 }

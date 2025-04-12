@@ -1,10 +1,13 @@
 'use client';
 
+import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Home() {
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Hero Section */}
       <section className="text-center py-20 px-6">
@@ -36,5 +39,6 @@ export default function Home() {
         <Link href="/signup" > <button className="mt-6 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">Sign Up</button> </Link>
       </section>
     </div>
+    </>
   );
 }

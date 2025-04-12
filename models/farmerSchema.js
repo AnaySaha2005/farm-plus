@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import {mongoose,models} from 'mongoose'
 const farmerSchema=new mongoose.Schema({
 name:{
     type:String,
@@ -6,8 +6,10 @@ name:{
 },
 phone:{
     type:Number,
+    min : 100000000,
+    max : 999999999,
     required:true,
 }
 },{timestamps:true})
-const Farmer=mongoose.model("Farmer",farmerSchema);
+const Farmer=models.Farmer||mongoose.model("Farmer",farmerSchema);
 export default Farmer
