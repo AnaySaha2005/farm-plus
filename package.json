@@ -1,0 +1,59 @@
+{
+  "name": "farm-plus",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@google/genai": "^0.7.0",
+    "@headlessui/react": "^2.2.4",
+    "@heroui/react": "^2.7.5",
+    "@heroui/theme": "^2.4.12",
+    "axios": "^1.8.4",
+    "framer-motion": "^12.6.3",
+    "lucide-react": "^0.487.0",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.2",
+    "next": "15.2.4",
+    "next-auth": "^4.24.11",
+    "next-themes": "^0.4.6",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.5.2",
+    "toastr": "^2.1.4",
+    "twilio": "^5.7.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4.0.17",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.4",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.17",
+    "typescript": "^5"
+  },
+  "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnaySaha2005/farm-plus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnaySaha2005/farm-plus/issues"
+  },
+  "homepage": "https://github.com/AnaySaha2005/farm-plus#readme"
+}
