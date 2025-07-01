@@ -9,6 +9,10 @@ phone:{
     min : 1000000000,
     max : 9999999999,
     required:true,
+},
+countryCode:{
+    type:String,
+    required:true,
 }
 },{timestamps:true})
 const Farmer=models.Farmer||mongoose.model("Farmer",farmerSchema);
