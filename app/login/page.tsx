@@ -27,9 +27,8 @@ export default function Login() {
         e.preventDefault();
         try {
             await axios.post('/api/login', {
-                name,
-                phone,
-                countryCode,
+                phone:phone,
+                countryCode:countryCode,
                 location, // { latitude, longitude }
             });
             // handle success (e.g., redirect or show toast)

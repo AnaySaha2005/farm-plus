@@ -30,24 +30,28 @@ export default function Signup() {
         e.preventDefault();
         // console.log({ name, phone, countryCode, role });
         try {
-            if (phone.length > 10) toast.error('Invalid Phone Number')
-            console.log(otpVerification);
+            if (phone.length != 10){ toast.error('Invalid Phone Number');return}
+            // console.log(otpVerification);
             if (otpVerification) {
-                const res = await axios.post("api/signup", { name: name, phone: phone, code: countryCode, role: role })
-                    .catch((err) => {
-                        const message = err.response?.data?.message || "Error during signup";
-                        toast.error(message);
-                    });
+                const res = await axios.post("api/signup", { name: name, phone: phone, countryCode: countryCode, role: role })
                 // Handle form submission, e.g., send data to the backend
                 // console.log(res);
-                toast.success("Signed Up SuccessFully")
-                router.push('/login')
+                if (res?.data?.message) toast.error(res?.data?.message)
+                else {
+                    toast.success("Signed Up Successfully. Redirecting to login...");
+                    setTimeout(() => {
+                        router.push("/login");
+                    }, 2000); // 5000ms = 5s
+                }
+
+                // setTimeout(()=>{router.push('/login'),3000})
+
             }
             else {
                 toast.error("Verify number first")
             }
         } catch (error) {
-            // console.error("Error during signup:", error);
+            console.dir(error);
 
             toast.error("Error during signup");
             // alert("An error occurred during signup. Please try again.");
@@ -59,7 +63,7 @@ export default function Signup() {
             setOtpVerification(true);
             toast.success("OTP Verified Successfully");
         }
-        toast.error("OTP is Wrong");
+        else toast.error("OTP is Wrong");
     };
     const sendOtp = async () => {
         const t = await axios.post('api/generateOtp', { phone: countryCode + phone });
@@ -68,6 +72,7 @@ export default function Signup() {
         toast.success("OTP Sent Successfully");
     }
     const [otp, setOtp] = useState("");
+
     return (<>
         <Toaster />
         <Navbar />

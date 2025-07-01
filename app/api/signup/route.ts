@@ -9,15 +9,15 @@ export async function POST(request: Request) {
         if (body.role === "farmer") {
             await connectDB();
 
-            let existing = await Trader.findOne({ phone: body.phone });
-            existing = await Farmer.findOne({ phone: body.phone });
+            let existing = await Trader.findOne({ phone: body.phone});
+            existing = existing || await Farmer.findOne({ phone: body.phone });
 
             if (existing) {
                 return Response.json({ status: 400, message: "Farmer already exists" });
             }
-
+            console.log(body.countryCode);
             // Create a new farmer
-            const f = new Farmer({ name: body.name, phone: body.phone });
+            const f = new Farmer({ name: body.name, phone: body.phone ,countryCode:body.countryCode});
             await f.save();
             return Response.json({ status: 200 });
 
@@ -26,14 +26,14 @@ export async function POST(request: Request) {
             await connectDB();
 
             let existing = await Trader.findOne({ phone: body.phone });
-            existing = await Farmer.findOne({ phone: body.phone });
+            existing = existing || await Farmer.findOne({ phone: body.phone });
 
             if (existing) {
                 return Response.json({ status: 400, message: "Trader already exists" });
             }
 
             // Create a new trader
-            const f = new Trader({ name: body.name, phone: body.phone });
+            const f = new Trader({ name: body.name, phone: body.phone,countryCode:body.countryCode });
             await f.save();
             return Response.json({ status: 200 });
         }
@@ -41,8 +41,4 @@ export async function POST(request: Request) {
         console.log(error);
         return Response.json(error, { status: 400 });
     }
-}
-
-export async function GET(request: Request) {
-    return Response.json("hello");
 }
