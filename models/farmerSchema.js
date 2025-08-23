@@ -13,7 +13,11 @@ phone:{
 countryCode:{
     type:String,
     required:true,
-}
+},
+list:[{
+    type:mongoose.Schema.ObjectId,
+    ref:"Listing"
+}]
 },{timestamps:true})
 const Farmer=models.Farmer||mongoose.model("Farmer",farmerSchema);
 export default Farmer

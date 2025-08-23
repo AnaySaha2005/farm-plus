@@ -5,25 +5,25 @@ import connectDB from "@/lib/mongoose";
 import Farmer from "@/models/farmerSchema";
 import Trader from "@/models/traderSchema";
 
-export async function POST(req:Request) {
-  const { phone,location,countryCode} = await req.json();
+export async function POST(req: Request) {
+  const { phone, location, countryCode } = await req.json();
   await connectDB();
-
   let user = await Farmer.findOne({ phone });
-  if(user.countryCode!=countryCode)user=null;
+  if (user != null && user.countryCode != countryCode) user = null;
   let role = "farmer";
 
   if (!user) {
     user = await Trader.findOne({ phone });
-    if(user.countryCode!=countryCode)user=null;
+    if (user?.countryCode != countryCode) user = null;
     if (user) role = "trader";
   }
 
   if (!user) {
-    return NextResponse.json({ message: "User not found" }, { status: 404 });
+    return NextResponse.json({ message: "User not found" }, { status: 400 });
   }
 
   const token = await encrypt({
+    role: role,
     id: user._id.toString(),
     location,
   });
