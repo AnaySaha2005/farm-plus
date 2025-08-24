@@ -17,7 +17,7 @@ export default function Navbar() {
     <nav className="bg-gray-800 text-white p-4 shadow-md ">
       <div className="container mx-auto flex justify-between items-center">
         <Link href={"/"}>
-          <h1 className="text-2xl font-bold">FarmPlus</h1>
+          <span className="text-2xl font-bold flex "><img src="./favicon.ico" alt="" className="h-10 rounded-xl mx-2" /> FarmPlus</span>
         </Link>
         {/* Mobile Menu Button */}
         <button
