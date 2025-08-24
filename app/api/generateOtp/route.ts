@@ -2,6 +2,7 @@ import twilio from "twilio";
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
+console.log(accountSid+"  "+authToken)
 const client = twilio(accountSid, authToken);
 export async function POST(request: Request) {
     try {
@@ -10,7 +11,6 @@ export async function POST(request: Request) {
         const max=999999;
         const min=100000
         const otp=Math.floor(Math.random() * (max - min + 1)) + min;
-        console.log(phone)
         client.messages
         .create({
             body: `${otp}`,

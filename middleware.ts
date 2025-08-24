@@ -5,7 +5,6 @@ import { decrypt } from "./lib/jwt";
 export async function middleware(request: NextRequest) {
   const session = await getSession();
   if (request.nextUrl.pathname === "/dashboard") {
-    console.log("hi")
     if (!session) {
       return NextResponse.redirect(new URL("/login", request.nextUrl));
     }
