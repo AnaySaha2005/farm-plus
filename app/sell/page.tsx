@@ -1,5 +1,4 @@
 "use client";
-
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -9,6 +8,7 @@ interface Listing {
   _id: string;
   crop: string;
   price: number;
+  image: string;
 }
 
 export default function Sell() {
@@ -17,6 +17,7 @@ export default function Sell() {
   const [crop, setCrop] = useState("");
   const [price, setPrice] = useState("");
   const [editId, setEditId] = useState<string | null>(null); // ID of item being edited
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     fetchListings();
@@ -42,26 +43,26 @@ export default function Sell() {
       return;
     }
     try {
-      console.dir(e.target)
+      const formData = new FormData();
+      if (file) formData.append("image", file);
+      formData.append("crop", crop);
+      formData.append("price", price);
+
       if (editId) {
-        await axios.put(`/api/listings/${editId}`, {
-          Crop: crop,
-          Price: Number(price),
-          Image:e.target[0].value,
+        await axios.put(`/api/listings/${editId}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Listing updated!");
         setEditId(null);
       } else {
-        await axios.post("/api/listings", {
-          Crop: crop,
-          Price: Number(price),
-          Image:e.target[0].value,
+        await axios.post("/api/listings", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Listing added!");
       }
-
       setCrop("");
       setPrice("");
+      setFile(null);
       fetchListings();
     } catch (err) {
       toast.error("Failed to save listing");
@@ -72,8 +73,8 @@ export default function Sell() {
     toast((t) => (
       <span>
         Are you sure?
-        <button className="px-3 py-1 mx-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition"
-          
+        <button
+          className="px-3 py-1 mx-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition"
           onClick={async () => {
             toast.dismiss(t.id);
             try {
@@ -105,6 +106,7 @@ export default function Sell() {
           {editId ? "✏️ Update Listing" : "➕ Add New Trade"}
         </h1>
 
+        {/* FORM */}
         <form
           onSubmit={handleSubmit}
           encType="multipart/form-data"
@@ -118,16 +120,19 @@ export default function Sell() {
               type="file"
               id="crop_img"
               name="crop_img"
-              accept="image/png, image/jpeg"
+              accept="image/*"
               className="block w-full text-sm text-white file:mr-4 file:py-2 file:px-4
              file:rounded-md file:border-0
              file:text-sm file:font-semibold
              file:bg-green-600 file:text-white
              hover:file:bg-green-700
              bg-gray-700 rounded-md shadow-sm"
+              onChange={(e) => {
+                setFile(e.target.files?.[0] ?? null);
+              }}
             />
 
-            <label className="block mb-2 text-sm font-medium">Crop Name</label>
+            <label className="block mb-2 text-sm font-medium mt-4">Crop Name</label>
             <input
               type="text"
               value={crop}
@@ -164,6 +169,7 @@ export default function Sell() {
                   setEditId(null);
                   setCrop("");
                   setPrice("");
+                  setFile(null);
                 }}
                 className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition"
               >
@@ -173,6 +179,7 @@ export default function Sell() {
           </div>
         </form>
 
+        {/* LISTINGS */}
         <h1 className="text-3xl font-bold mb-6">🌾 My Crop Listings</h1>
         {loading ? (
           <p className="text-gray-400">Fetching data...</p>
@@ -185,6 +192,13 @@ export default function Sell() {
                 key={listing._id}
                 className="bg-gray-800 rounded-xl shadow-md p-5 hover:shadow-xl transition flex flex-col justify-between"
               >
+                {/* Responsive Image */}
+                <img
+                  src={listing.image}
+                  alt={listing.crop}
+                  className="w-full h-48 object-cover rounded-md mb-3"
+                />
+
                 <div className="mb-3">
                   <h2 className="text-xl font-semibold text-green-400">
                     {listing.crop}

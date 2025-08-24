@@ -3,7 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { Listbox } from "@headlessui/react";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -29,30 +29,59 @@ export default function Login() {
     longitude: number;
   } | null>(null);
 
+  const [otpVerification, setOtpVerification] = useState(false);
+  const [viewOtpBar, setViewOtpBar] = useState(false);
+  const [serverOtp, setServerOtp] = useState("");
+  const [otp, setOtp] = useState("");
+
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      // console.log("hi")
+      if (!otpVerification) {
+        toast.error("Please verify OTP first");
+        return;
+      }
+
       await axios
         .post("/api/login", {
           phone: phone,
           countryCode: countryCode,
           location, // { latitude, longitude }
         })
-        .then((res) => {
-          toast.success("Logged In Up Successfully!!!");
+        .then(() => {
+          toast.success("Logged In Successfully!!!");
           setTimeout(() => {
             router.push("/dashboard");
-          }, 2000); // 5000ms = 5s
+          }, 2000);
         })
         .catch((err) => {
           console.log(err.response.data.message);
           toast.error(err.response.data.message);
         });
-      // handle success (e.g., redirect or show toast)
     } catch (error) {
-      // handle error (e.g., show toast)
+      toast.error("Error during login");
     }
+  };
+ 
+  const verifyOtp = () => {
+    if (serverOtp == otp) {
+      setOtpVerification(true);
+      toast.success("OTP Verified Successfully");
+    } else toast.error("OTP is Wrong");
+  };
+
+  const sendOtp = async () => {
+    if (phone.length !== 10 || !/^\d+$/.test(phone)) {
+      toast.error("Invalid Phone Number");
+      return;
+    }
+    console.log(phone)
+    const t = await axios.post("api/generateOtp", {
+      phone: countryCode + phone,
+    });
+    setServerOtp(t.data.otp);
+    toast.success("OTP Sent Successfully");
+    setViewOtpBar(true);
   };
 
   useEffect(() => {
@@ -87,6 +116,7 @@ export default function Login() {
                 required
               />
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-300">
                 Phone Number
@@ -104,10 +134,9 @@ export default function Login() {
                           key={country.code}
                           value={country.code}
                           className={({ active }) =>
-                            `cursor-pointer select-none p-2 ${
-                              active
-                                ? "bg-green-600 text-white"
-                                : "text-gray-200"
+                            `cursor-pointer select-none p-2 ${active
+                              ? "bg-green-600 text-white"
+                              : "text-gray-200"
                             }`
                           }
                         >
@@ -117,15 +146,46 @@ export default function Login() {
                     </Listbox.Options>
                   </div>
                 </Listbox>
+
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  className="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none h-9"
                   required
                 />
+
+                <button
+                  onClick={sendOtp}
+                  type="button"
+                  className="text-xs w-full sm:w-32 bg-green-600 text-white py-2 px-2 rounded-md hover:bg-green-700 transition-all duration-300"
+                >
+                  Send OTP
+                </button>
               </div>
+
+              {viewOtpBar && (
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-2 my-1">
+                  <input
+                    placeholder={
+                      "Enter the otp sent on xxx" +
+                      phone.substring(phone.length - 4, phone.length)
+                    }
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className="w-full p-2 my-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none"
+                  />
+                  <button
+                    onClick={verifyOtp}
+                    type="button"
+                    className="w-full sm:w-16 h-10 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-all duration-300"
+                  >
+                    Verify
+                  </button>
+                </div>
+              )}
             </div>
+
             <div className="flex flex-col sm:flex-row justify-between gap-2">
               <button
                 type="submit"

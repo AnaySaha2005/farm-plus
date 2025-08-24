@@ -26,6 +26,7 @@ export default function Signup() {
   const router = useRouter();
   const [otpVerification, setOtpVerification] = useState(false);
   const [viewOtpBar, setViewOtpBar] = useState(false);
+  const [otp, setOtp] = useState("");
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     // console.log({ name, phone, countryCode, role });
@@ -78,7 +79,7 @@ export default function Signup() {
     setServerOtp(t.data.otp);
     toast.success("OTP Sent Successfully");
   };
-  const [otp, setOtp] = useState("");
+
 
   return (
     <>

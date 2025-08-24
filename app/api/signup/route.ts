@@ -15,7 +15,6 @@ export async function POST(request: Request) {
             if (existing) {
                 return Response.json({ status: 400, message: "Farmer already exists" });
             }
-            console.log(body.countryCode);
             // Create a new farmer
             const f = new Farmer({ name: body.name, phone: body.phone ,countryCode:body.countryCode});
             await f.save();
