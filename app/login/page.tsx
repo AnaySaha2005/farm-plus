@@ -47,6 +47,10 @@ export default function Login() {
           phone: phone,
           countryCode: countryCode,
           location, // { latitude, longitude }
+        }, {
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
         .then(() => {
           toast.success("Logged In Successfully!!!");
@@ -78,6 +82,10 @@ export default function Login() {
     console.log(phone)
     const t = await axios.post("api/generateOtp", {
       phone: countryCode + phone,
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     setServerOtp(t.data.otp);
     toast.success("OTP Sent Successfully");

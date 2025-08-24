@@ -25,7 +25,11 @@ export default function Buy() {
 
     async function getListing() {
       try {
-        const res = await axios.get("/api/listings");
+        const res = await axios.get("/api/listings", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         setListings(res.data);
       } catch (err) {
         toast.error("Failed to load listings");

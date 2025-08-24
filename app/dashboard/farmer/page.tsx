@@ -19,7 +19,11 @@ export default function FarmerDashboard() {
     // Simulated AI Insights Fetching
 
     const getWeatherData = async () => {
-      const res = await axios.get("/api/weather/farmer");
+      const res = await axios.get("/api/weather/farmer",  {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       setAiInsights(res.data.insights);
       setWeather({
         temp: res.data.temp,
@@ -30,7 +34,11 @@ export default function FarmerDashboard() {
     getWeatherData();
   }, []);
   async function locationData() {
-    const res = await axios.post("/api/locationSearch", { location });
+    const res = await axios.post("/api/locationSearch", { location }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     setLocInsights(res.data.locInsight);
   }
   return (

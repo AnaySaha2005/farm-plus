@@ -18,7 +18,11 @@ export default function TraderDashboard() {
 
   useEffect(() => {
     async function getData(){
-      const res=await axios.get('/api/weather/trader')
+      const res = await axios.get('/api/weather/trader', {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       // console.dir(res.data.marketTrends)
       setWeather(
         {

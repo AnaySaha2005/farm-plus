@@ -42,6 +42,10 @@ export default function Signup() {
           phone: phone,
           countryCode: countryCode,
           role: role,
+        }, {
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
         // Handle form submission, e.g., send data to the backend
         // console.log(res);
@@ -74,6 +78,10 @@ export default function Signup() {
   const sendOtp = async () => {
     const t = await axios.post("api/generateOtp", {
       phone: countryCode + phone,
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     // console.log(t);
     setServerOtp(t.data.otp);

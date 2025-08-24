@@ -26,7 +26,11 @@ export default function Sell() {
   const fetchListings = async () => {
     const toastId = toast.loading("Loading listings...");
     try {
-      const res = await axios.get("/api/listings");
+      const res = await axios.get("/api/listings", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       setListings(res.data);
     } catch (err) {
       toast.error("Failed to load listings");
@@ -78,7 +82,11 @@ export default function Sell() {
           onClick={async () => {
             toast.dismiss(t.id);
             try {
-              await axios.delete(`/api/listings/${id}`);
+              await axios.delete(`/api/listings/${id}`, {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
               toast.success("Listing deleted");
               fetchListings();
             } catch (err) {
